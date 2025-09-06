@@ -6,30 +6,11 @@ import InternalUsage from "./components/InternalUsage";
 
 type View = "api" | "client" | "internal" | "demo";
 
-function isEmptyData(v: unknown) {
-  if (v == null) return true;
-  if (Array.isArray(v)) return v.length === 0;
-  if (typeof v === "object") return Object.keys(v as object).length === 0;
-  return false;
-}
 
 const App: React.FC = () => {
   const [view, setView] = useState<View>("api");
 
-  // TODO: replace these with your real datasets
-  const clientData: unknown = [];
-  const internalData: unknown = [];
-  const demoData: unknown = [];
 
-  // Map non-API views to their data blobs
-  const dataByView: Record<Exclude<View, "api">, unknown> = {
-    client: clientData,
-    internal: internalData,
-    demo: demoData,
-  };
-
-  const isApiView = view === "api";
-  const activeData = isApiView ? null : dataByView[view as Exclude<View, "api">];
 
   return (
     <div className="mx-auto p-4 bg-gray-900">
@@ -110,10 +91,5 @@ const App: React.FC = () => {
   );
 };
 
-const EmptyState: React.FC<{ label?: string }> = ({ label = "No data currently" }) => (
-  <div className="bg-gray-800 border min-h-screen border-gray-700 rounded-xl p-8 text-center text-gray-400">
-    {label}
-  </div>
-);
 
 export default App;
