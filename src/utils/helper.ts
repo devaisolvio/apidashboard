@@ -1,4 +1,4 @@
-import type { OpenRouterData } from "../App";
+import type { OpenRouterData } from "../components/ApiDashboard";
 
 // Accepts shapes like: [ { data:[...] } ] OR { data:[...] } OR plain array of rows
 function coerceRows(input: any): any[] {

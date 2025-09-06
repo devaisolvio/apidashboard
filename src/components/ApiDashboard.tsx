@@ -3,6 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import { OpenAICard } from './Openai';
 import OpenRouterCard from './Openrouter';
 import { reduceOpenRouterPayload } from '../utils/helper';
+import Openrouter from './Openrouter';
 
 // Simple interfaces - one for each provider's raw data
 // Root payload
@@ -81,42 +82,7 @@ const daysAgo = (d: number) => nowSec() - d * 86400;
 
 
 
-  // Fetch data from N8n webhook
-  useEffect(() => {
-    setIsLoading(true)
-  const ctrl = new AbortController();
-  
 
-  (async () => {
-    try {
-      const url = `https://aisolv2.app.n8n.cloud/webhook/276034e8-4b97-48d4-930c-42ae583c2b08?start_date=${range.start}&end_date=${range.end}`;
-      const res = await fetch(url, {
-        method: "GET"
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: WebhookData = await res.json();
-      
-      setWebhookData(data);
-      setLastUpdated(new Date());
-    } catch (err) {
-      if ((err as any)?.name !== "AbortError") {
-        console.error("fetch failed:", err);
-        // optionally set an error state here
-      }
-    }finally{
-        setIsLoading(false)
-    }
-  })();
-
-
-  return () =>{
-  
-     ctrl.abort()
-    };
-
-  
-
-  }, [range.start, range.end]);
 
   if (isLoading) {
     return (
@@ -140,20 +106,13 @@ const daysAgo = (d: number) => nowSec() - d * 86400;
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         
         {/* OpenAI Card */}
-        {webhookData?.openai && (
-          <OpenAICard 
-          data={webhookData.openai} 
-      onApplyRange={(start, end) => setRange({ start, end })}
-          />
-        )}
+        <OpenAICard webhookUrl="https://aisolv2.app.n8n.cloud/webhook/276034e8-4b97-48d4-930c-42ae583c2b08" />
+
 
       
 
         {/* OpenRouter Card */}
-       {webhookData?.openrouter && (
-          <OpenRouterCard data={reduceOpenRouterPayload(webhookData.openrouter)} />
-        )} 
-
+      <Openrouter webhookUrl="https://aisolv2.app.n8n.cloud/webhook/7b9e901e-84ac-4620-96db-c53e5327e4c7" />
        
 
       </div>
