@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { RefreshCw } from 'lucide-react';
+
 import { OpenAICard } from './Openai';
-import OpenRouterCard from './Openrouter';
-import { reduceOpenRouterPayload } from '../utils/helper';
+
 import Openrouter from './Openrouter';
 
 // Simple interfaces - one for each provider's raw data
@@ -59,49 +57,24 @@ export type OpenRouterData = {
 
 
 // N8n webhook payload
-interface WebhookData {
-  timestamp: string;
-  openai?: OpenAIBucket[];
-  openrouter?: OpenRouterData;
-}
+
 
 
 
 // Main Dashboard Component
 const ApiDashboard: React.FC = () => {
-  const [webhookData, setWebhookData] = useState<WebhookData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  const nowSec = () => Math.floor(Date.now() / 1000);
-const daysAgo = (d: number) => nowSec() - d * 86400;
- const [range, setRange] = useState<{start: number; end: number}>({
-    start: daysAgo(7),
-    end: nowSec(),
-  });
+
+
+ 
 
 
 
 
-
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white text-xl flex items-center space-x-3">
-          <RefreshCw className="w-6 h-6 animate-spin" />
-          <span>Loading API data...</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       {/* Header */}
-        <div className="text-sm text-gray-400 mb-6 ">
-                    Last updated: <span className='text-emerald-400'>{lastUpdated.toLocaleTimeString()}</span>
-                  </div>
-
+  
       {/* Provider Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         
